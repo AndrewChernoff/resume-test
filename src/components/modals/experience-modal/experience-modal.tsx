@@ -11,19 +11,15 @@ import { DevTool } from "@hookform/devtools";
 
 const formSchema = z.object({
   position: z.string()
-    .min(2, { message: "Должность должна содержать минимум 2 символа" })
     .max(50, { message: "Должность должна содержать не более 50 символов" })
     .optional(),
   company: z.string()
-    .min(2, { message: "Название компании должно содержать минимум 2 символа" })
     .max(50, { message: "Название компании должно содержать не более 50 символов" })
     .optional(),
   period: z.string()
-    .min(10, { message: "Период должен содержать минимум 10 символа" })
     .max(50, { message: "Период должен содержать не более 50 символов" })
     .optional(),
   description: z.string()
-    .min(10, { message: "Раздел 'О себе' должен содержать минимум 10 символов" })
     .max(200, { message: "Раздел 'О себе' должен содержать не более 200 символов" })
     .optional()
 });
@@ -64,7 +60,6 @@ export const ExperienceModal = () => {
     };
 
   return <DialogWindow isOpen={param === 'experience'} onCloseHandler={onClose}>
-    {/* <DevTool control={control} /> */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <Dialog.Title className={s.Title}>Опыт</Dialog.Title>
           <Dialog.Close asChild>
