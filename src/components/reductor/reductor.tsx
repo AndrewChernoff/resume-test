@@ -19,5 +19,14 @@ export const Reductor = () => {
             </div>
         </section>
 
+        <section className={s.section}>
+            <h2>Образование</h2>
+            <div className={s.section__fields}>
+                <div>Учебное заведение: {sections['education'].collage || '---'}</div>
+                <div>Специальность: {sections['education'].major || '---'}</div>
+                <div>Период: {sections['education'].period || '---'}</div>
+            </div>
+        </section>
+
     </div>;
 };

@@ -12,7 +12,7 @@ import { TextArea } from "../../shared/text-area/text-area";
 import { clsx } from 'clsx';
 
 
-const formSchema = z.object({
+const experienceFormSchema = z.object({
   position: z.string()
     .max(50, { message: "Должность должна содержать не более 50 символов" })
     .optional(),
@@ -27,7 +27,7 @@ const formSchema = z.object({
     .optional()
 });
 
-type FormData = z.infer<typeof formSchema>;
+type FormData = z.infer<typeof experienceFormSchema>;
 
 export const ExperienceModal = () => {
     const dispatch = useAppDispatch();
@@ -48,7 +48,7 @@ export const ExperienceModal = () => {
           period: fields.period || '',
           description: fields.description || ''
         },
-          resolver: zodResolver(formSchema)
+          resolver: zodResolver(experienceFormSchema)
       });
 
     const onClose = () => {
@@ -142,5 +142,5 @@ export const ExperienceModal = () => {
           </button>
           </div>
         </form>
-        </DialogWindow>;
+      </DialogWindow>;
 };

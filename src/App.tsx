@@ -3,6 +3,7 @@ import { Preview } from './components/preview/preview';
 import "@radix-ui/themes/styles.css";
 import s from './App.module.scss'
 import { ExperienceModal } from './components/modals/experience-modal/experience-modal';
+import { EducationModal } from './components/modals/education-modal/education-modal';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Preview />
     </div>
     <ExperienceModal />
+    <EducationModal />
     </>
   )
 }
