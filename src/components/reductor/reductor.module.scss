@@ -2,3 +2,16 @@
     width: 40%;
     border: red 1px solid;
 }
+
+.section {
+        h2 {
+            font-weight: bold;
+        }
+        &__fields {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 15px;
+            border: black 2px solid;
+        }
+}

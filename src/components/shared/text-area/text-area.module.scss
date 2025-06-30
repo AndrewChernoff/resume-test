@@ -1,0 +1,18 @@
+.textArea {
+	all: unset;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	height: 150px; 
+    width: 100%;
+}
+
+.error {
+	color: red;
+	border: red 1px solid;
+}
+
+.errorMessage {
+    margin: 0 0 20px;
+    color: red;
+}

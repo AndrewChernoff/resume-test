@@ -6,8 +6,11 @@ import { DialogWindow } from "../../dialog/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import s from "./experience-modal.module.scss";
-import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
+import { Controller, useForm } from "react-hook-form";
+import { Input } from "../../shared/input/input";
+import { TextArea } from "../../shared/text-area/text-area";
+import { clsx } from 'clsx';
+
 
 const formSchema = z.object({
   position: z.string()
@@ -32,18 +35,18 @@ export const ExperienceModal = () => {
     const param = useAppSelector(state => state.section.param);
 
     const {
-        register,
         control,
         handleSubmit,
         formState: { errors, isSubmitting },
         reset,
-        getValues
+        getValues,
+        formState: { isDirty, isValid }
       } = useForm<FormData>({
         defaultValues: {
-          position: fields.position,
-          company: fields.company,
-          period: fields.period,
-          description: fields.description
+          position: fields.position || '',
+          company: fields.company || '',
+          period: fields.period || '',
+          description: fields.description || ''
         },
           resolver: zodResolver(formSchema)
       });
@@ -59,70 +62,83 @@ export const ExperienceModal = () => {
         dispatch(setParam('none'))
     };
 
-  return <DialogWindow isOpen={param === 'experience'} onCloseHandler={onClose}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Dialog.Title className={s.Title}>Опыт</Dialog.Title>
-          <Dialog.Close asChild>
-                        <button onClick={onClose} className={s.IconButton} aria-label="Close">
-                        </button>
-            </Dialog.Close>
-        <div className={s.input}>
-          <label htmlFor="position">Должность</label>
-          <input
-            id="position"
-            type="text"
-            {...register("position")}
-            placeholder="Введите должность"
-          />
-          {errors.position && (
-            <p className={s.errorMessage}>{errors.position.message}</p>
-          )}
-        </div>
+    const disabled = isSubmitting || !isDirty || !isValid;
 
-        <div className={s.input}>
-          <label htmlFor="company">Компания</label>
-          <input
-            id="company"
-            type="text"
-            {...register("company")}
-            placeholder="Введите компанию"
+    return <DialogWindow isOpen={param === 'experience'} onCloseHandler={onClose}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Dialog.Title className={s.Title}>Опыт</Dialog.Title>
+            <Dialog.Close asChild>
+                <button onClick={onClose} className={s.IconButton}>
+                </button>
+              </Dialog.Close>
+          <Controller
+            control={control}
+            name="position"
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value || ''}
+                onChange={onChange}
+                label={"Должность"} id={"position"}
+                placeholder="Введите должность"
+                error={Boolean(errors.position?.message)}
+                errorMessage={errors.position?.message}
+                />
+            )}
           />
-          {errors.company && (
-            <p className={s.errorMessage}>{errors.company.message}</p>
-          )}
-        </div>
 
-        <div className={s.input}>
-          <label htmlFor="period">Сертификаты</label>
-          <input
-            id="period"
-            type="text"
-            {...register("period")}
-            placeholder="Введите сертификаты"
+          <Controller
+            control={control}
+            name="company"
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value || ''}
+                onChange={onChange}
+                label={"Компания"} id={"company"}
+                placeholder="Введите компанию"
+                error={Boolean(errors.company?.message)}
+                errorMessage={errors.company?.message}
+                />
+            )}
           />
-          {errors.period && (
-            <p className={s.errorMessage}>{errors.period.message}</p>
-          )}
-        </div>
 
-        <div className={s.textArea}>
-          <label htmlFor="description">Описание</label>
-          <textarea
-            id="aboutMe"
-            {...register("description")}
-            placeholder="О себе"
+          <Controller
+            control={control}
+            name="period"
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value || ''}
+                onChange={onChange}
+                label={"Период"} id={"period"}
+                placeholder="Введите период"
+                error={Boolean(errors.period?.message)}
+                errorMessage={errors.period?.message}
+                />
+            )}
           />
-          {errors.description && (
-            <p className={s.errorMessage}>{errors.description.message}</p>
-          )}
-        </div>
 
-        <button type="button" onClick={() => reset()}>
-          Cancel
-        </button>
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
-      </form>
+          <Controller
+            control={control}
+            name="description"
+            render={({ field: { onChange, value } }) => (
+              <TextArea
+                value={value || ''}
+                onChange={onChange}
+                label={"Описание"} id={"description"}
+                placeholder="Введите описание"
+                error={Boolean(errors.description?.message)}
+                errorMessage={errors.description?.message}
+                />
+            )}
+          />
+        
+        <div className={s.btns}>
+          <button type="button" onClick={() => reset()} className={s.btns__cancel}>
+            Cancel
+          </button>
+          <button type="submit" disabled={disabled} className={clsx(disabled ? s.disabled : s.btns__submit)}>
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </button>
+          </div>
+        </form>
         </DialogWindow>;
 };

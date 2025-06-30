@@ -78,70 +78,30 @@
 	}
 }
 
-.Fieldset {
-	all: unset;
+.disabled {
+	border-radius: 10px;
+	background-color: silver;
+}
+
+.btns {
 	display: flex;
-	gap: 20px;
-	align-items: center;
-}
+	justify-content: space-around;
 
-.Label {
-	font-size: 15px;
-	color: var(--violet-11);
-	width: 100px;
-	text-align: right;
-}
-
-/* .Input {
-	all: unset;
-	width: 100%;
-	border: black 1px solid;
-	&:focus {
-		box-shadow: 0 0 0 2px var(--violet-8);
+	button {
+		width: 100px;
+		height: 45px;
+		cursor: pointer;
 	}
-} */
 
-.textArea {
-	all: unset;
-	display: flex;
-	flex-direction: column;
-	gap: 5px;
-	height: 150px; 
-}
-
-.input {
-	all: unset;
-	display: flex;
-	flex-direction: column;
-	height: 100px;
-	gap: 5px;
-	margin-bottom: 20px;
-	input {
-		height: 40%;
+	&__submit {
+		background-color: green;
+		color: white;
+		border-radius: 10px;
 	}
-}
 
-.errorMessage {
-    margin: 0 0 20px;
-    color: red;
-}
-
-@keyframes overlayShow {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-@keyframes contentShow {
-	from {
-		opacity: 0;
-		transform: translate(-50%, -48%) scale(0.96);
-	}
-	to {
-		opacity: 1;
-		transform: translate(-50%, -50%) scale(1);
+	&__cancel {
+		background-color: red;
+		color: white;
+		border-radius: 10px;
 	}
 }

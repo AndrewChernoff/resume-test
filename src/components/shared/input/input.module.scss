@@ -1,0 +1,22 @@
+.input {
+	all: unset;
+	display: flex;
+	flex-direction: column;
+	height: 100px;
+	gap: 5px;
+	margin-bottom: 20px;
+	
+	input {
+		height: 40%;
+	}
+}
+
+.error {
+	color: red;
+	border: red 1px solid;
+}
+
+.errorMessage {
+    margin: 0 0 20px;
+    color: red;
+}
