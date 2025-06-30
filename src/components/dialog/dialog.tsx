@@ -8,17 +8,13 @@ type PropsType = {
     onCloseHandler: () => void;
 }
 
-export const DialogWindow: FC<PropsType> = ({isOpen, children, onCloseHandler}) => {
+export const DialogWindow: FC<PropsType> = ({isOpen, children}) => {
     return <Dialog.Root open={isOpen}>
             <Dialog.Portal>
                 <Dialog.Overlay className={s.Overlay} />
                 <Dialog.Content className={s.Content}>
-                    {/* <Dialog.Title className={s.Title}>Edit profile</Dialog.Title> */}
                     {children}
-                    {/* <Dialog.Close asChild>
-                        <button onClick={onCloseHandler} className={s.IconButton} aria-label="Close">
-                        </button>
-                    </Dialog.Close> */}
+                    
                 </Dialog.Content>
                 </Dialog.Portal>
             </Dialog.Root>

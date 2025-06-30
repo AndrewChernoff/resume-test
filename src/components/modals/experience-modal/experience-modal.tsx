@@ -62,13 +62,15 @@ export const ExperienceModal = () => {
         dispatch(setParam('none'))
     };
 
-    const disabled = isSubmitting || !isDirty || !isValid;
+    const disabledSubmit = isSubmitting || !isDirty || !isValid;
+    const disabledCancel = !isDirty;
 
     return <DialogWindow isOpen={param === 'experience'} onCloseHandler={onClose}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Dialog.Title className={s.Title}>Опыт</Dialog.Title>
             <Dialog.Close asChild>
                 <button onClick={onClose} className={s.IconButton}>
+                  X
                 </button>
               </Dialog.Close>
           <Controller
@@ -132,10 +134,10 @@ export const ExperienceModal = () => {
           />
         
         <div className={s.btns}>
-          <button type="button" onClick={() => reset()} className={s.btns__cancel}>
+          <button type="button" onClick={() => reset()} disabled={disabledCancel} className={clsx(!isDirty ? s.disabled : s.btns__cancel)}>
             Cancel
           </button>
-          <button type="submit" disabled={disabled} className={clsx(disabled ? s.disabled : s.btns__submit)}>
+          <button type="submit" disabled={disabledSubmit} className={clsx(disabledSubmit ? s.disabled : s.btns__submit)}>
             {isSubmitting ? "Submitting..." : "Submit"}
           </button>
           </div>
