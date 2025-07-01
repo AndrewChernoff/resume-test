@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { setParam, updateCategory } from "../../../redux/sections-slice";
+import { setParam, updateExperience, type ExperienceItem } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -56,7 +56,7 @@ export const ExperienceModal = () => {
     }
 
     const onSubmit = (data: FormData) => {
-        dispatch(updateCategory({section: "experience", data}))
+        dispatch(updateExperience(data as ExperienceItem))
         reset(getValues())
         dispatch(setParam('none'))
     };

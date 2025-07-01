@@ -1,6 +1,6 @@
 
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { setParam, updateArrayCategory } from "../../../redux/sections-slice";
+import { setParam, updateSkills } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
 import s from "./skills-modal.module.scss";
@@ -46,7 +46,7 @@ export const SkillsModal = () => {
             setErrorMessage('Этот навык уже указан');
         } else {
             setErrorMessage(null);
-            dispatch(updateArrayCategory({section: 'skills', prop: value.trim().toLocaleLowerCase()}));
+            dispatch(updateSkills( value.trim().toLocaleLowerCase()));
             onClose();
         }
     }

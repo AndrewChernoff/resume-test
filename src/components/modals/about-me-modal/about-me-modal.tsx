@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { setParam, updateSingleValueCategory } from "../../../redux/sections-slice";
+import { setParam, updateAboutMe } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
 import s from "./about-me-modal.module.scss";
@@ -40,7 +40,7 @@ export const AboutMeModal = () => {
     };
 
     const onSubmit = (data: FormValues) => {
-        dispatch(updateSingleValueCategory({ section: 'aboutMe', value: data.aboutMe.trim() }));
+        dispatch(updateAboutMe(data.aboutMe.trim()));
         onClose();
     };
 

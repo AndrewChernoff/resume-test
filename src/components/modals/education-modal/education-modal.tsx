@@ -1,6 +1,6 @@
 
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { setParam, updateCategory } from "../../../redux/sections-slice";
+import { setParam, updateEducation, type EducationItem } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,7 +52,7 @@ export const EducationModal = () => {
         }
         
     const onSubmit = (data: FormData) => {
-        dispatch(updateCategory({section: "education", data}))
+        dispatch(updateEducation(data as EducationItem))
         reset(getValues())
         dispatch(setParam('none'))
     };

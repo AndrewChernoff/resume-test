@@ -3,20 +3,20 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export type ParamType = 'none' | 'experience' | 'education' | 'skills' | 'certificates' | 'aboutMe'
 
-type ExperienceItem = {
+export type ExperienceItem = {
   position: string | null;
   company: string | null;
   period: string | null;
   description: string | null;
 };
 
-type EducationItem = {
+export type EducationItem = {
   collage: string | null;
   major: string | null;
   period: string | null;
 };
 
-type SectionsState = {
+export type SectionsState = {
   param: string;
   sectionItems: {
     experience: ExperienceItem;
@@ -54,18 +54,24 @@ export const sectionsSlice = createSlice({
     setParam: (state, action: PayloadAction<string>) => {
       state.param = action.payload 
     },
-    updateCategory: (state, action: PayloadAction<{section: string, data: any}>) => {
-      state.sectionItems[action.payload.section] = action.payload.data;
+    updateExperience: (state, action: PayloadAction<ExperienceItem>) => {
+      state.sectionItems.experience = action.payload;
     },
-    updateArrayCategory: (state, action: PayloadAction<{section: string, prop: string}>) => {
-      state.sectionItems[action.payload.section].push(action.payload.prop);
+    updateEducation: (state, action: PayloadAction<EducationItem>) => {
+      state.sectionItems.education = action.payload;
     },
-    updateSingleValueCategory: (state, action: PayloadAction<{section: string, value: string}>) => {
-      state.sectionItems[action.payload.section] = action.payload.value;
+    updateSkills: (state, action: PayloadAction<string>) => {
+      state.sectionItems.skills.push(action.payload);
+    },
+    updateCertificates: (state, action: PayloadAction<string>) => {
+      state.sectionItems.certificates.push(action.payload);
+    },
+    updateAboutMe: (state, action: PayloadAction<string>) => {
+      state.sectionItems.aboutMe = action.payload;
     },
   },
 })
 
-export const { setParam, updateCategory, updateArrayCategory, updateSingleValueCategory } = sectionsSlice.actions
+export const { setParam, updateExperience, updateEducation, updateSkills, updateCertificates, updateAboutMe } = sectionsSlice.actions
 
 export default sectionsSlice.reducer
