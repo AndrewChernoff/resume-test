@@ -2,7 +2,7 @@ import type { ChangeEvent, FC } from 'react';
 import s from './text-area.module.scss';
 
 type PropsType = {
-  label: string;
+  label?: string;
   id: string;
   value: string;
   type?: string;
@@ -22,7 +22,7 @@ export const TextArea: FC<PropsType> = ({
   onChange
 }) => {
   return <div className={s.textArea}>
-          <label htmlFor={id}>{label}</label>
+          {label && <label htmlFor={id}>{label}</label>}
           <textarea
             className={error ? s.error : undefined}
             id={id}

@@ -3,10 +3,29 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export type ParamType = 'none' | 'experience' | 'education' | 'skills' | 'certificates' | 'aboutMe'
 
+type ExperienceItem = {
+  position: string | null;
+  company: string | null;
+  period: string | null;
+  description: string | null;
+};
+
+type EducationItem = {
+  collage: string | null;
+  major: string | null;
+  period: string | null;
+};
+
 type SectionsState = {
   param: string;
-  sectionItems: any
-}
+  sectionItems: {
+    experience: ExperienceItem;
+    education: EducationItem;
+    skills: string[];
+    certificates: string[];
+    aboutMe: string | null;
+  };
+};
 
 const initialState: SectionsState = {
   param: 'none',
@@ -23,7 +42,8 @@ const initialState: SectionsState = {
       period: null
     },
     skills: [],
-    certificates: []
+    certificates: [],
+    aboutMe: null
   }
 }
 
@@ -40,9 +60,12 @@ export const sectionsSlice = createSlice({
     updateArrayCategory: (state, action: PayloadAction<{section: string, prop: string}>) => {
       state.sectionItems[action.payload.section].push(action.payload.prop);
     },
+    updateSingleValueCategory: (state, action: PayloadAction<{section: string, value: string}>) => {
+      state.sectionItems[action.payload.section] = action.payload.value;
+    },
   },
 })
 
-export const { setParam, updateCategory, updateArrayCategory } = sectionsSlice.actions
+export const { setParam, updateCategory, updateArrayCategory, updateSingleValueCategory } = sectionsSlice.actions
 
 export default sectionsSlice.reducer

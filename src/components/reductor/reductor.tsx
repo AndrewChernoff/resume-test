@@ -4,8 +4,7 @@ import s from './reductor.module.scss'
 
 export const Reductor = () => {
     const sections = useAppSelector(state => state.section.sectionItems);
-    const skills = useAppSelector(state => state.section.sectionItems.skills);
-    const certificates = useAppSelector(state => state.section.sectionItems.certificates);
+    const {skills, certificates, aboutMe} = useAppSelector(state => state.section.sectionItems);
 
 
     return <div className={s.reductor}>
@@ -49,6 +48,15 @@ export const Reductor = () => {
                     {certificates.map(el => <li>- {el}</li>)}
                 </ul>
                 : <p>Сертификаты не указаны</p>    
+            }
+            </div>
+        </section>
+        
+        <section className={s.section}>
+            <h2>Обо мне</h2>
+            <div className={s.section__fields}>
+                {aboutMe ? <p>{aboutMe}</p>
+                : <p>Нет информации</p>    
             }
             </div>
         </section>

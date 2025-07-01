@@ -27,7 +27,7 @@ type FormData = z.infer<typeof educationFormSchema>;
 
 export const EducationModal = () => {
     const dispatch = useAppDispatch();
-    const fields = useAppSelector(state => state.section.sectionItems).experience;
+    const fields = useAppSelector(state => state.section.sectionItems.education);
     const param = useAppSelector(state => state.section.param);
 
     const {
@@ -38,11 +38,11 @@ export const EducationModal = () => {
         getValues,
         formState: { isDirty, isValid }
     } = useForm<FormData>({
-    defaultValues: {
-        collage: fields.collage || '',
-        major: fields.major || '',
-        period: fields.period || '',
-    },
+        defaultValues: {
+            collage: fields.collage || '',
+            major: fields.major || '',
+            period: fields.period || '',
+        },
         resolver: zodResolver(educationFormSchema)
     });
 

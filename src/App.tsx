@@ -6,6 +6,7 @@ import { ExperienceModal } from './components/modals/experience-modal/experience
 import { EducationModal } from './components/modals/education-modal/education-modal';
 import { SkillsModal } from './components/modals/skills-modal/skills-modal';
 import { CertificatesModal } from './components/modals/certificates-modal/certificates-modal';
+import { AboutMeModal } from './components/modals/about-me-modal/about-me-modal';
 
 function App() {
   return (
@@ -14,10 +15,11 @@ function App() {
       <Reductor />
       <Preview />
     </div>
-    <ExperienceModal />
-    <EducationModal />
-    <SkillsModal />
-    <CertificatesModal />
+      <ExperienceModal />
+      <EducationModal />
+      <SkillsModal />
+      <CertificatesModal />
+      <AboutMeModal />
     </>
   )
 }
