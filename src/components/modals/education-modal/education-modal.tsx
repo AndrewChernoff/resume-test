@@ -37,28 +37,29 @@ export const EducationModal = () => {
         reset,
         getValues,
         formState: { isDirty, isValid }
-        } = useForm<FormData>({
-        defaultValues: {
-            collage: fields.collage || '',
-            major: fields.major || '',
-            period: fields.period || '',
-        },
-            resolver: zodResolver(educationFormSchema)
-        });
+    } = useForm<FormData>({
+    defaultValues: {
+        collage: fields.collage || '',
+        major: fields.major || '',
+        period: fields.period || '',
+    },
+        resolver: zodResolver(educationFormSchema)
+    });
 
-        const onClose = () => {
-            dispatch(setParam('none'));
-            reset();
-            }
+    const onClose = () => {
+        dispatch(setParam('none'));
+        reset();
+        }
         
-            const onSubmit = (data: FormData) => {
-                dispatch(updateCategory({section: "education", data}))
-                reset(getValues())
-                dispatch(setParam('none'))
-            };
+    const onSubmit = (data: FormData) => {
+        dispatch(updateCategory({section: "education", data}))
+        reset(getValues())
+        dispatch(setParam('none'))
+    };
         
-            const disabledSubmit = isSubmitting || !isDirty || !isValid;
-            const disabledCancel = !isDirty;
+    const disabledSubmit = isSubmitting || !isDirty || !isValid;
+    const disabledCancel = !isDirty;
+
 
     return <DialogWindow isOpen={param === 'education'} onCloseHandler={onClose}>
             <form onSubmit={handleSubmit(onSubmit)}>

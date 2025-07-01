@@ -1,4 +1,3 @@
-
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { setParam, updateCategory } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";

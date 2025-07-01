@@ -35,10 +35,13 @@ export const sectionsSlice = createSlice({
     },
     updateCategory: (state, action: PayloadAction<{section: string, data: any}>) => {
       state.sectionItems[action.payload.section] = action.payload.data;
-    }, 
+    },
+    updateSkillsCategory: (state, action: PayloadAction<string>) => {
+      state.sectionItems.skills.push(action.payload);
+    },
   },
 })
 
-export const { setParam, updateCategory } = sectionsSlice.actions
+export const { setParam, updateCategory, updateSkillsCategory } = sectionsSlice.actions
 
 export default sectionsSlice.reducer

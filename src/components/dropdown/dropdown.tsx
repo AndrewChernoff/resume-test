@@ -13,7 +13,6 @@ type PropsType = {
 export const Dropdown: FC<PropsType> = ({children}) => {
     const dispatch = useAppDispatch();
     const param = useAppSelector(state => state.section.param);
-    console.log(param);
 
     const onChooseParam = (value: string) => dispatch(setParam(value))
 

@@ -4,7 +4,8 @@ import s from './reductor.module.scss'
 
 export const Reductor = () => {
     const sections = useAppSelector(state => state.section.sectionItems);
-    
+    const skills = useAppSelector(state => state.section.sectionItems).skills;
+
     return <div className={s.reductor}>
         <Dropdown>
             <button>Добавить секцию</button>
@@ -28,5 +29,13 @@ export const Reductor = () => {
             </div>
         </section>
 
+        <section className={s.section}>
+            <h2>Навыки</h2>
+            <div className={s.section__fields}>
+                <ul>
+                    {skills.map(el => <li>- {el}</li>)}
+                </ul>
+            </div>
+        </section>
     </div>;
 };
