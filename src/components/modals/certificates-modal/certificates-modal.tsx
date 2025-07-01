@@ -3,25 +3,25 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { setParam, updateArrayCategory } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
-import s from "./skills-modal.module.scss";
+import s from "./certificates-modal.module.scss";
 import { Input } from "../../shared/input/input";
 import { useState, type ChangeEvent } from "react";
 import clsx from "clsx";
 
-export const SkillsModal = () => {
+export const CertificatesModal = () => {
     const dispatch = useAppDispatch();
-    const skills = useAppSelector(state => state.section.sectionItems).skills
+    const certificates = useAppSelector(state => state.section.sectionItems.certificates)
     const param = useAppSelector(state => state.section.param);
     const [value, setValue] = useState('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onValueChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const isExists = skills.includes(e.currentTarget.value.trim()); 
+        const isExists = certificates.includes(e.currentTarget.value.trim()); 
 
         if(isExists) {
-            setErrorMessage('Этот навык уже указан');
-        } else if (e.currentTarget.value.trim().length >= 20) {
-            setErrorMessage('Максимальное количество символов 20');
+            setErrorMessage('Этот сертификат уже указан');
+        } else if (e.currentTarget.value.trim().length >= 30) {
+            setErrorMessage('Максимальное количество символов 30');
         } else {
             setErrorMessage(null);
         }
@@ -40,13 +40,13 @@ export const SkillsModal = () => {
     }
 
     const onSubmit = () => {
-        const isExists = skills.includes(value.trim().toLowerCase()); 
+        const isExists = certificates.includes(value.trim().toLowerCase()); 
 
         if (isExists) {
-            setErrorMessage('Этот навык уже указан');
+            setErrorMessage('Этот сертификат уже указан');
         } else {
             setErrorMessage(null);
-            dispatch(updateArrayCategory({section: 'skills', prop: value.trim().toLocaleLowerCase()}));
+            dispatch(updateArrayCategory({section: 'certificates', prop: value.trim().toLocaleLowerCase()}));
             onClose();
         }
     }
@@ -54,31 +54,31 @@ export const SkillsModal = () => {
     const disableBtn = value.trim().length === 0;
     const disabledConfirm = Boolean(errorMessage) || disableBtn;
     
-    return <DialogWindow isOpen={param === 'skills'} onCloseHandler={onClose}>
+    return <DialogWindow isOpen={param === 'certificates'} onCloseHandler={onClose}>
           <div>
-            <Dialog.Title className={s.title}>Навыки</Dialog.Title>
+            <Dialog.Title className={s.title}>Сертификаты</Dialog.Title>
             <Dialog.Close asChild>
-                <button onClick={onClose} className={s.iconButton}>
+                <button onClick={onClose} className={s.close__button}>
                   X
                 </button>
               </Dialog.Close>          
               <Input
                 value={value}
                 onChange={onValueChange}
-                label={"Название"} id={"skill"}
-                placeholder="Введите навык"
+                label={"Название"} id={"certificate"}
+                placeholder="Введите название сертификата"
                 error={Boolean(errorMessage)}
                 errorMessage={errorMessage || undefined}
                 />
     
         
             <div className={s.btns}>
-            <button  onClick={clearValue} disabled={disableBtn} className={clsx(disableBtn ? s.disabled : s.btns__cancel)}>
-                Cancel
-            </button>
-            <button onClick={onSubmit} disabled={disabledConfirm}  className={clsx(disabledConfirm ? s.disabled : s.btns__submit)}>
-                Submit
-            </button>
+                <button  onClick={clearValue} disabled={disableBtn} className={clsx(disableBtn ? s.disabled : s.btns__cancel)}>
+                    Отмена
+                </button>
+                <button onClick={onSubmit} disabled={disabledConfirm}  className={clsx(disabledConfirm ? s.disabled : s.btns__submit)}>
+                    Сохранить
+                </button>
             </div>
         </div> 
       </DialogWindow>;

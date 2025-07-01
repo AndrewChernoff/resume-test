@@ -22,7 +22,8 @@ const initialState: SectionsState = {
       major: null,
       period: null
     },
-    skills: []
+    skills: [],
+    certificates: []
   }
 }
 
@@ -36,12 +37,12 @@ export const sectionsSlice = createSlice({
     updateCategory: (state, action: PayloadAction<{section: string, data: any}>) => {
       state.sectionItems[action.payload.section] = action.payload.data;
     },
-    updateSkillsCategory: (state, action: PayloadAction<string>) => {
-      state.sectionItems.skills.push(action.payload);
+    updateArrayCategory: (state, action: PayloadAction<{section: string, prop: string}>) => {
+      state.sectionItems[action.payload.section].push(action.payload.prop);
     },
   },
 })
 
-export const { setParam, updateCategory, updateSkillsCategory } = sectionsSlice.actions
+export const { setParam, updateCategory, updateArrayCategory } = sectionsSlice.actions
 
 export default sectionsSlice.reducer
