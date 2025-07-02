@@ -21,7 +21,6 @@ export const AboutMeModal = () => {
     const dispatch = useAppDispatch();
     const param = useAppSelector(state => state.section.param);
     const aboutMeValue = useAppSelector(selectAboutMe);
-    console.log(aboutMeValue)
 
     const {
         control,

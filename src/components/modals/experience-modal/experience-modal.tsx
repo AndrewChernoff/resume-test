@@ -50,8 +50,6 @@ export const ExperienceModal = () => {
           resolver: zodResolver(experienceFormSchema)
       });
 
-      console.log(errors)
-
     const onClose = () => {
       dispatch(setParam('none'));
       reset();
