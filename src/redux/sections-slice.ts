@@ -150,7 +150,30 @@ export const sectionsSlice = createSlice({
     },
     removeSection: (state, action: PayloadAction<string>) => {
       state.sections = state.sections.filter(s => s.id !== action.payload);
-    }
+    },
+    moveSection: (state, action: PayloadAction<{ dragIndex: number; hoverIndex: number }>) => {
+      const { dragIndex, hoverIndex } = action.payload;
+      
+      // Make sure indices are valid
+      if (
+        dragIndex < 0 || 
+        dragIndex >= state.sections.length ||
+        hoverIndex < 0 || 
+        hoverIndex >= state.sections.length
+      ) {
+        return;
+      }
+
+      // Create a new array to avoid mutating the state directly
+      const newSections = [...state.sections];
+      // Remove the dragged item
+      const [draggedItem] = newSections.splice(dragIndex, 1);
+      // Insert it at the new position
+      newSections.splice(hoverIndex, 0, draggedItem);
+
+      // Update the state
+      state.sections = newSections;
+    },
   },
 });
 
@@ -207,7 +230,8 @@ export const {
   addCertificate,
   updateAboutMe,
   addSection,
-  removeSection
+  removeSection,
+  moveSection
 } = sectionsSlice.actions;
 
 export const selectSkills = (state: RootState): string[] => {
@@ -248,6 +272,10 @@ export const selectAboutMe = (state: RootState): any => {
   ) as AboutMeItem | undefined;
   
   return aboutMeSection?.content
+};
+
+export const selectSectionsOrder = (state: RootState): string[] => {
+  return state.section.sections.map(section => section.id);
 };
 
 export default sectionsSlice.reducer;

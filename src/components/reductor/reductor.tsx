@@ -1,83 +1,155 @@
-import { useAppSelector } from "../../app/hooks";
-import type { AboutMeItem, CertificatesItem, EducationItem, ExperienceItem, SkillsItem } from "../../redux/sections-slice";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { Dropdown } from "../dropdown/dropdown";
-import s from './reductor.module.scss'
+import s from './reductor.module.scss';
+import { useDrag, useDrop, DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { moveSection, selectAboutMe, selectCertificates, selectEducation, selectExperience, selectSkills, selectSectionsOrder } from "../../redux/sections-slice";
+import { useRef } from 'react';
+
+// Draggable Section Component
+const Section = ({ section, index, children }: { section: any, index: number, children: React.ReactNode }) => {
+  const dispatch = useAppDispatch();
+  const ref = useRef<HTMLElement>(null);
+  
+  const [{ isDragging }, drag] = useDrag({
+    type: 'SECTION',
+    item: { id: section.id, index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  const [, drop] = useDrop({
+    accept: 'SECTION',
+    hover: (item: { id: string; index: number }, monitor) => {
+      if (!ref.current) return;
+      
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      
+      if (dragIndex === hoverIndex) return;
+
+      // Don't replace items if they're the same
+      if (section.id === item.id) return;
+
+      dispatch(moveSection({ dragIndex, hoverIndex }));
+      item.index = hoverIndex;
+    },
+  });
+
+  drag(drop(ref));
+
+  return (
+    <section 
+      ref={ref}
+      className={s.section}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    >
+      {children}
+    </section>
+  );
+};
 
 export const Reductor = () => {
-    const sections = useAppSelector(state => state.section.sections);
-    
-    // Helper functions to find specific sections
-    const getSection = (type: string) => sections.find(section => section.type === type);
-    
-    const experience = getSection('experience') as ExperienceItem | undefined;
-    const education = getSection('education') as EducationItem | undefined;
-    const skills = getSection('skills') as SkillsItem | undefined;
-    const certificates = getSection('certificates') as CertificatesItem | undefined;
-    const aboutMe = getSection('aboutMe') as AboutMeItem | undefined;
+  const dispatch = useAppDispatch();
+  const sectionsOrder = useAppSelector(selectSectionsOrder);
+  
+  const experience = useAppSelector(selectExperience);
+  const education = useAppSelector(selectEducation);
+  const skills = useAppSelector(selectSkills);
+  const certificates = useAppSelector(selectCertificates);
+  const aboutMe = useAppSelector(selectAboutMe);
 
-    return (
-        <div className={s.reductor}>
-            <Dropdown>
-                <button>Добавить секцию</button>
-            </Dropdown>
+  // Create a map of all available sections
+  const sectionsMap = {
+    'exp-1': experience && { 
+      id: 'exp-1', 
+      component: (
+        <>
+          <h2>Опыт</h2>
+          <div className={s.section__fields}>
+            <div>Должность: {experience.position || '---'}</div>
+            <div>Компания: {experience.company || '---'}</div>
+            <div>Период: {experience.period || '---'}</div>
+            <div>Описание: {experience.description || '---'}</div>
+          </div>
+        </>
+      )
+    },
+    'edu-1': education && { 
+      id: 'edu-1', 
+      component: (
+        <>
+          <h2>Образование</h2>
+          <div className={s.section__fields}>
+            <div>Учебное заведение: {education.collage || '---'}</div>
+            <div>Специальность: {education.major || '---'}</div>
+            <div>Период: {education.period || '---'}</div>
+          </div>
+        </>
+      )
+    },
+    'skills-1': { 
+      id: 'skills-1', 
+      component: (
+        <>
+          <h2>Навыки</h2>
+          <div className={s.section__fields}>
+            {skills.length > 0 ? (
+              <ul>
+                {skills.map((el, index) => <li key={index}>- {el}</li>)}
+              </ul>
+            ) : <p>Навыки не указаны</p>}
+          </div>
+        </>
+      )
+    },
+    'certs-1': { 
+      id: 'certs-1', 
+      component: (
+        <>
+          <h2>Сертификаты</h2>
+          <div className={s.section__fields}>
+            {certificates.length > 0 ? (
+              <ul>
+                {certificates.map((el, index) => <li key={index}>- {el}</li>)}
+              </ul>
+            ) : <p>Сертификаты не указаны</p>}
+          </div>
+        </>
+      )
+    },
+    'about-1': { 
+      id: 'about-1', 
+      component: (
+        <>
+          <h2>Обо мне</h2>
+          <div className={s.section__fields}>
+            {aboutMe ? <p>{aboutMe}</p> : <p>Нет информации</p>}
+          </div>
+        </>
+      )
+    }
+  };
 
-            {experience && (
-                <section className={s.section}>
-                    <h2>Опыт</h2>
-                    <div className={s.section__fields}>
-                        <div>Должность: {experience.position || '---'}</div>
-                        <div>Компания: {experience.company || '---'}</div>
-                        <div>Период: {experience.period || '---'}</div>
-                        <div>Описание: {experience.description || '---'}</div>
-                    </div>
-                </section>
-            )}
+  // Create ordered sections based on the sectionsOrder from Redux
+  const orderedSections = sectionsOrder
+    .map(sectionId => sectionsMap[sectionId])
+    .filter(Boolean);
 
-            {education && (
-                <section className={s.section}>
-                    <h2>Образование</h2>
-                    <div className={s.section__fields}>
-                        <div>Учебное заведение: {education.collage || '---'}</div>
-                        <div>Специальность: {education.major || '---'}</div>
-                        <div>Период: {education.period || '---'}</div>
-                    </div>
-                </section>
-            )}
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <div className={s.reductor}>
+        <Dropdown>
+          <button>Добавить секцию</button>
+        </Dropdown>
 
-            {skills && (
-                <section className={s.section}>
-                    <h2>Навыки</h2>
-                    <div className={s.section__fields}>
-                        {skills.items.length > 0 ? (
-                            <ul>
-                                {skills.items.map((el, index) => <li key={index}>- {el}</li>)}
-                            </ul>
-                        ) : <p>Навыки не указаны</p>}
-                    </div>
-                </section>
-            )}
-
-            {certificates && (
-                <section className={s.section}>
-                    <h2>Сертификаты</h2>
-                    <div className={s.section__fields}>
-                        {certificates.items.length > 0 ? (
-                            <ul>
-                                {certificates.items.map((el, index) => <li key={index}>- {el}</li>)}
-                            </ul>
-                        ) : <p>Сертификаты не указаны</p>}
-                    </div>
-                </section>
-            )}
-
-            {aboutMe && (
-                <section className={s.section}>
-                    <h2>Обо мне</h2>
-                    <div className={s.section__fields}>
-                        {aboutMe.content ? <p>{aboutMe.content}</p> : <p>Нет информации</p>}
-                    </div>
-                </section>
-            )}
-        </div>
-    );
+        {orderedSections.map((section, index) => (
+          <Section key={section.id} section={section} index={index}>
+            {section.component}
+          </Section>
+        ))}
+      </div>
+    </DndProvider>
+  );
 };

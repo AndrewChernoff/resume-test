@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { selectExperience, setParam, updateExperience, type ExperienceItem } from "../../../redux/sections-slice";
+import { selectExperience, setParam, updateExperience } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
