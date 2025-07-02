@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from './store';
 
+type NullableType<T> = T | null | undefined;
+
 export type ExperienceItem = {
   id: string;
   type: 'experience';
@@ -137,16 +139,17 @@ export const sectionsSlice = createSlice({
         section.items.push(action.payload.certificate);
       }
     },
+     removeCertificate: (state, action: PayloadAction<{sectionId: string, certificateIndex: number}>) => {
+      const section = state.sections.find(s => s.id === action.payload.sectionId && s.type === 'certificates');
+      if (section && section.type === 'certificates') {
+        section.items.splice(action.payload.certificateIndex, 1);
+      }
+    },
     updateAboutMe: (state, action: PayloadAction<{sectionId: string, content: string}>) => {
       const section = state.sections.find(s => s.id === action.payload.sectionId && s.type === 'aboutMe');
       if (section && section.type === 'aboutMe') {
         section.content = action.payload.content;
       }
-    },
-    addSection: (state, action: PayloadAction<{type: SectionItem['type'], position?: number}>) => {
-      const newSection = createNewSection(action.payload.type);
-      const position = action.payload.position ?? state.sections.length;
-      state.sections.splice(position, 0, newSection);
     },
     removeSection: (state, action: PayloadAction<string>) => {
       state.sections = state.sections.filter(s => s.id !== action.payload);
@@ -154,7 +157,6 @@ export const sectionsSlice = createSlice({
     moveSection: (state, action: PayloadAction<{ dragIndex: number; hoverIndex: number }>) => {
       const { dragIndex, hoverIndex } = action.payload;
       
-      // Make sure indices are valid
       if (
         dragIndex < 0 || 
         dragIndex >= state.sections.length ||
@@ -164,61 +166,14 @@ export const sectionsSlice = createSlice({
         return;
       }
 
-      // Create a new array to avoid mutating the state directly
       const newSections = [...state.sections];
-      // Remove the dragged item
       const [draggedItem] = newSections.splice(dragIndex, 1);
-      // Insert it at the new position
       newSections.splice(hoverIndex, 0, draggedItem);
 
-      // Update the state
       state.sections = newSections;
     },
   },
 });
-
-function createNewSection(type: SectionItem['type']): SectionItem {
-  const baseId = Date.now().toString();
-  switch (type) {
-    case 'experience':
-      return {
-        id: `exp-${baseId}`,
-        type: 'experience',
-        position: null,
-        company: null,
-        period: null,
-        description: null
-      };
-    case 'education':
-      return {
-        id: `edu-${baseId}`,
-        type: 'education',
-        collage: null,
-        major: null,
-        period: null
-      };
-    case 'skills':
-      return {
-        id: `skills-${baseId}`,
-        type: 'skills',
-        items: []
-      };
-    case 'certificates':
-      return {
-        id: `certs-${baseId}`,
-        type: 'certificates',
-        items: []
-      };
-    case 'aboutMe':
-      return {
-        id: `about-${baseId}`,
-        type: 'aboutMe',
-        content: null
-      };
-    default:
-      throw new Error(`Unknown section type: ${type}`);
-  }
-}
 
 export const { 
   setParam,
@@ -228,8 +183,8 @@ export const {
   addSkill,
   removeSkill,
   addCertificate,
+  removeCertificate,
   updateAboutMe,
-  addSection,
   removeSection,
   moveSection
 } = sectionsSlice.actions;
@@ -250,7 +205,7 @@ export const selectCertificates = (state: RootState): string[] => {
   return certificatesSection?.items || [];
 };
 
-export const selectEducation = (state: RootState): {collage: any, major: any, period: any } => {
+export const selectEducation = (state: RootState): {collage: NullableType<string>, major: NullableType<string>, period: NullableType<string> } => {
   const educationSection = state.section.sections.find(
     (section) => section.type === 'education'
   ) as EducationItem | undefined;
@@ -258,7 +213,7 @@ export const selectEducation = (state: RootState): {collage: any, major: any, pe
   return {collage: educationSection?.collage, major: educationSection?.major, period: educationSection?.period };
 };
 
-export const selectExperience = (state: RootState): any => {
+export const selectExperience = (state: RootState): {position: NullableType<string>; company: NullableType<string>, period: NullableType<string>, description: NullableType<string>} => {
   const experienceSection = state.section.sections.find(
     (section) => section.type === 'experience'
   ) as ExperienceItem | undefined;
@@ -266,7 +221,7 @@ export const selectExperience = (state: RootState): any => {
   return {position: experienceSection?.position, company: experienceSection?.company, period: experienceSection?.period, description: experienceSection?.description };
 };
 
-export const selectAboutMe = (state: RootState): any => {
+export const selectAboutMe = (state: RootState): NullableType<string> => {
   const aboutMeSection = state.section.sections.find(
     (section) => section.type === 'aboutMe'
   ) as AboutMeItem | undefined;

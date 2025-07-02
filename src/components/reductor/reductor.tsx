@@ -3,10 +3,9 @@ import { Dropdown } from "../dropdown/dropdown";
 import s from './reductor.module.scss';
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { moveSection, selectAboutMe, selectCertificates, selectEducation, selectExperience, selectSkills, selectSectionsOrder } from "../../redux/sections-slice";
+import { moveSection, selectAboutMe, selectCertificates, selectEducation, selectExperience, selectSkills, selectSectionsOrder, removeSkill, removeCertificate } from "../../redux/sections-slice";
 import { useRef } from 'react';
 
-// Draggable Section Component
 const Section = ({ section, index, children }: { section: any, index: number, children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLElement>(null);
@@ -21,7 +20,7 @@ const Section = ({ section, index, children }: { section: any, index: number, ch
 
   const [, drop] = useDrop({
     accept: 'SECTION',
-    hover: (item: { id: string; index: number }, monitor) => {
+    hover: (item: { id: string; index: number }) => {
       if (!ref.current) return;
       
       const dragIndex = item.index;
@@ -60,7 +59,9 @@ export const Reductor = () => {
   const certificates = useAppSelector(selectCertificates);
   const aboutMe = useAppSelector(selectAboutMe);
 
-  // Create a map of all available sections
+  const removeSkillHandler = (skillIndex: number) => dispatch(removeSkill({sectionId: "skills-1", skillIndex })) 
+  const removeCertificateHandler = (certificateIndex: number) => dispatch(removeCertificate({sectionId: "certs-1", certificateIndex })) 
+
   const sectionsMap = {
     'exp-1': experience && { 
       id: 'exp-1', 
@@ -97,7 +98,7 @@ export const Reductor = () => {
           <div className={s.section__fields}>
             {skills.length > 0 ? (
               <ul>
-                {skills.map((el, index) => <li key={index}>- {el}</li>)}
+                {skills.map((el, index) => <li key={index}>- {el} <button className={s.remove__btn} onClick={() => removeSkillHandler(index)}>X</button></li>)}
               </ul>
             ) : <p>Навыки не указаны</p>}
           </div>
@@ -112,7 +113,7 @@ export const Reductor = () => {
           <div className={s.section__fields}>
             {certificates.length > 0 ? (
               <ul>
-                {certificates.map((el, index) => <li key={index}>- {el}</li>)}
+                {certificates.map((el, index) => <li key={index}>- {el}  <button className={s.remove__btn} onClick={() => removeCertificateHandler(index)}>X</button></li>)}
               </ul>
             ) : <p>Сертификаты не указаны</p>}
           </div>
@@ -132,7 +133,6 @@ export const Reductor = () => {
     }
   };
 
-  // Create ordered sections based on the sectionsOrder from Redux
   const orderedSections = sectionsOrder
     .map(sectionId => sectionsMap[sectionId])
     .filter(Boolean);
