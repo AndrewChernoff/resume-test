@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { setParam, updateAboutMe } from "../../../redux/sections-slice";
+import { selectAboutMe, setParam, updateAboutMe } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
 import s from "./about-me-modal.module.scss";
@@ -20,7 +20,8 @@ type FormValues = z.infer<typeof aboutMeSchema>;
 export const AboutMeModal = () => {
     const dispatch = useAppDispatch();
     const param = useAppSelector(state => state.section.param);
-    const aboutMeValue = useAppSelector(state => state.section.sectionItems.aboutMe);
+    const aboutMeValue = useAppSelector(selectAboutMe);
+    console.log(aboutMeValue)
 
     const {
         control,
@@ -40,7 +41,7 @@ export const AboutMeModal = () => {
     };
 
     const onSubmit = (data: FormValues) => {
-        dispatch(updateAboutMe(data.aboutMe.trim()));
+        dispatch(updateAboutMe({sectionId: 'about-1', content: data.aboutMe.trim()}));
         onClose();
     };
 

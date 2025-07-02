@@ -13,7 +13,7 @@ function App() {
     <>
     <div className={s.app}>
       <Reductor />
-      <Preview />
+      {/* <Preview /> */}
     </div>
       <ExperienceModal />
       <EducationModal />

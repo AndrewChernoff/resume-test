@@ -3,15 +3,15 @@ import { Dropdown } from "../dropdown/dropdown";
 import s from './reductor.module.scss'
 
 export const Reductor = () => {
-    const sections = useAppSelector(state => state.section.sectionItems);
-    const {skills, certificates, aboutMe} = useAppSelector(state => state.section.sectionItems);
+   /*  const sections = useAppSelector(state => state.section.sectionItems);
+    const {skills, certificates, aboutMe} = useAppSelector(state => state.section.sectionItems); */
 
 
     return <div className={s.reductor}>
         <Dropdown>
             <button>Добавить секцию</button>
         </Dropdown>
-        <section className={s.section}>
+        {/* <section className={s.section}>
             <h2>Опыт</h2>
             <div className={s.section__fields}>
                 <div>Должность: {sections['experience'].position || '---'}</div>
@@ -59,6 +59,6 @@ export const Reductor = () => {
                 : <p>Нет информации</p>    
             }
             </div>
-        </section>
+        </section> */}
     </div>;
 };

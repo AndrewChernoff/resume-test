@@ -1,6 +1,6 @@
 
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { setParam, updateSkills } from "../../../redux/sections-slice";
+import { setParam, addSkill, selectSkills } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
 import s from "./skills-modal.module.scss";
@@ -10,7 +10,7 @@ import clsx from "clsx";
 
 export const SkillsModal = () => {
     const dispatch = useAppDispatch();
-    const skills = useAppSelector(state => state.section.sectionItems).skills
+    const skills = useAppSelector(selectSkills)
     const param = useAppSelector(state => state.section.param);
     const [value, setValue] = useState('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -46,7 +46,7 @@ export const SkillsModal = () => {
             setErrorMessage('Этот навык уже указан');
         } else {
             setErrorMessage(null);
-            dispatch(updateSkills( value.trim().toLocaleLowerCase()));
+            dispatch(addSkill({sectionId: 'skills-1', skill: value.trim().toLocaleLowerCase()}));
             onClose();
         }
     }

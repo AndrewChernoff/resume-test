@@ -1,6 +1,6 @@
 
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { setParam, updateCertificates } from "../../../redux/sections-slice";
+import { setParam, addCertificate, selectCertificates } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
 import s from "./certificates-modal.module.scss";
@@ -10,7 +10,7 @@ import clsx from "clsx";
 
 export const CertificatesModal = () => {
     const dispatch = useAppDispatch();
-    const certificates = useAppSelector(state => state.section.sectionItems.certificates)
+    const certificates = useAppSelector(selectCertificates)
     const param = useAppSelector(state => state.section.param);
     const [value, setValue] = useState('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -46,7 +46,7 @@ export const CertificatesModal = () => {
             setErrorMessage('Этот сертификат уже указан');
         } else {
             setErrorMessage(null);
-            dispatch(updateCertificates(value.trim().toLocaleLowerCase()));
+            dispatch(addCertificate({sectionId: 'certs-1',certificate: value.trim().toLocaleLowerCase()}));
             onClose();
         }
     }

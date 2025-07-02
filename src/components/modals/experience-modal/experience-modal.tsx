@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { setParam, updateExperience, type ExperienceItem } from "../../../redux/sections-slice";
+import { selectExperience, setParam, updateExperience, type ExperienceItem } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,7 +30,7 @@ type FormData = z.infer<typeof experienceFormSchema>;
 
 export const ExperienceModal = () => {
     const dispatch = useAppDispatch();
-    const fields = useAppSelector(state => state.section.sectionItems).experience;
+    const fields = useAppSelector(selectExperience);
     const param = useAppSelector(state => state.section.param);
 
     const {
@@ -50,13 +50,15 @@ export const ExperienceModal = () => {
           resolver: zodResolver(experienceFormSchema)
       });
 
+      console.log(errors)
+
     const onClose = () => {
       dispatch(setParam('none'));
       reset();
     }
 
     const onSubmit = (data: FormData) => {
-        dispatch(updateExperience(data as ExperienceItem))
+        dispatch(updateExperience({id: 'exp-1', data: data as any}))
         reset(getValues())
         dispatch(setParam('none'))
     };
