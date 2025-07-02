@@ -1,4 +1,53 @@
 .preview {
-    width: 40%;
-    border: red 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 2rem;
+}
+
+.paperSheet {
+    width: 210mm; // A4 width
+    min-height: 297mm; // A4 height
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 2cm; // Standard print margins
+    
+    // Стили для содержимого, чтобы выглядело как документ
+    font-family: 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #333;
+    
+    h2 {
+        font-size: 24px;
+        font-weight: 900;
+        margin-bottom: 20px;
+    }
+    // Стили для Reductor внутри
+    
+        
+        .section {
+            margin-bottom: 1.5rem;
+            border: none;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+            
+            h3 {
+                font-size: 22px;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                color: #444;
+            }
+
+            &__fields {
+                &_item {
+                    span {
+                        font-size: 18px;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    
 }
