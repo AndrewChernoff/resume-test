@@ -56,7 +56,6 @@ export const CertificatesModal = () => {
     
     return <DialogWindow isOpen={param === 'certificates'} onCloseHandler={onClose}>
           <div>
-            <Dialog.Title className={s.title}>Сертификаты</Dialog.Title>
             <Dialog.Close asChild>
                 <button onClick={onClose} className={s.close__button}>
                   X

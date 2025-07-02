@@ -1,6 +1,6 @@
 
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { selectEducation, setParam, updateEducation, type EducationItem } from "../../../redux/sections-slice";
+import { selectEducation, setParam, updateEducation } from "../../../redux/sections-slice";
 import { Dialog } from "radix-ui";
 import { DialogWindow } from "../../dialog/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,7 +52,7 @@ export const EducationModal = () => {
         }
         
     const onSubmit = (data: FormData) => {
-        dispatch(updateEducation({id: 'edu-1', data: data as any}))
+        dispatch(updateEducation({id: 'edu-1', data}))
         reset(getValues())
         dispatch(setParam('none'))
     };
@@ -65,7 +65,7 @@ export const EducationModal = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Dialog.Title className={s.title}>Опыт</Dialog.Title>
                 <Dialog.Close asChild>
-                    <button onClick={onClose} className={s.iconButton}>
+                    <button onClick={onClose} className={s.close__button}>
                     X
                     </button>
                 </Dialog.Close>

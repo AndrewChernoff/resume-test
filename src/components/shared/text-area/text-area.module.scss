@@ -5,6 +5,11 @@
 	gap: 5px;
 	height: 150px; 
     width: 100%;
+
+	textarea {
+		height: 60%;
+		resize: none;
+	}
 }
 
 .error {

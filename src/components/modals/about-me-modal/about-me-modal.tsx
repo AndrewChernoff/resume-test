@@ -54,7 +54,6 @@ export const AboutMeModal = () => {
         <DialogWindow isOpen={param === 'aboutMe'} onCloseHandler={onClose}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                    <Dialog.Title className={s.title}>Обо мне</Dialog.Title>
                     <Dialog.Close asChild>
                         <button onClick={onClose} className={s.close__button}>
                             X
@@ -66,6 +65,7 @@ export const AboutMeModal = () => {
                         render={({ field: { onChange, value } }) => (
                             <TextArea
                                 value={value || aboutMeValue || ''}
+                                label={'Обо мне'}
                                 onChange={onChange}
                                 id="aboutMe"
                                 placeholder="Расскажите о себе"

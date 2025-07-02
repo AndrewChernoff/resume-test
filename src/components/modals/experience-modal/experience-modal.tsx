@@ -56,7 +56,7 @@ export const ExperienceModal = () => {
     }
 
     const onSubmit = (data: FormData) => {
-        dispatch(updateExperience({id: 'exp-1', data: data as any}))
+        dispatch(updateExperience({id: 'exp-1', data}))
         reset(getValues())
         dispatch(setParam('none'))
     };
@@ -66,9 +66,9 @@ export const ExperienceModal = () => {
 
     return <DialogWindow isOpen={param === 'experience'} onCloseHandler={onClose}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Dialog.Title className={s.Title}>Опыт</Dialog.Title>
+            <Dialog.Title className={s.title}>Опыт</Dialog.Title>
             <Dialog.Close asChild>
-                <button onClick={onClose} className={s.IconButton}>
+                <button onClick={onClose} className={s.close__button}>
                   X
                 </button>
               </Dialog.Close>

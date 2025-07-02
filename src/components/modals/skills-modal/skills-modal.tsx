@@ -56,9 +56,8 @@ export const SkillsModal = () => {
     
     return <DialogWindow isOpen={param === 'skills'} onCloseHandler={onClose}>
           <div>
-            <Dialog.Title className={s.title}>Навыки</Dialog.Title>
             <Dialog.Close asChild>
-                <button onClick={onClose} className={s.iconButton}>
+                <button onClick={onClose} className={s.close__button}>
                   X
                 </button>
               </Dialog.Close>          
