@@ -42,7 +42,8 @@ export const EducationModal = () => {
             major: fields.major || '',
             period: fields.period || '',
         },
-        resolver: zodResolver(educationFormSchema)
+        resolver: zodResolver(educationFormSchema),
+        mode: "onChange"
     });
 
     const onClose = () => {

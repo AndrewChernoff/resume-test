@@ -46,7 +46,8 @@ export const ExperienceModal = () => {
           period: fields.period || '',
           description: fields.description || ''
         },
-          resolver: zodResolver(experienceFormSchema)
+          resolver: zodResolver(experienceFormSchema),
+          mode: "onChange"
       });
 
     const onClose = () => {
