@@ -26,16 +26,16 @@
 }
 
 .section {
-        border: black 2px solid;
+    border: black 2px solid;
 
-        h2 {
-            font-weight: bold;
-        }
-        &__fields {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-top: 15px;
-            padding: 10px;
-        }
+    h2 {
+        font-weight: bold;
+    }
+    &__fields {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 15px;
+        padding: 10px;
+    }
 }
