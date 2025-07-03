@@ -1,3 +1,18 @@
+.add__btn {
+    cursor: pointer;
+    color: white;
+    background-color: rgb(56, 56, 234);
+    border-radius: 5px;
+    border: none;
+    padding: 8px 16px;
+
+    
+    &:hover {
+        background-color: blue;
+    }
+
+}
+
 .remove__btn {
     color: white;
     background-color: red;
@@ -8,7 +23,6 @@
 
 .reductor {
     width: 40%;
-    border: red 1px solid;
 }
 
 .section {
@@ -22,5 +36,6 @@
             flex-direction: column;
             gap: 5px;
             margin-top: 15px;
+            padding: 10px;
         }
 }

@@ -65,6 +65,7 @@ export const sectionsSlice = createSlice({
       }
     },
     updateEducation: (state, action: PayloadAction<any>) => {
+      
       const index = state.sections.findIndex(s => s.id === action.payload.id);
       if (index >= 0) {
         state.sections[index] = {

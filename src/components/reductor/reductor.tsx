@@ -62,7 +62,8 @@ export const Reductor = () => {
   const removeSkillHandler = (skillIndex: number) => dispatch(removeSkill({sectionId: "skills-1", skillIndex })) 
   const removeCertificateHandler = (certificateIndex: number) => dispatch(removeCertificate({sectionId: "certs-1", certificateIndex })) 
 
-  const sectionsMap = {
+
+  const sectionsMap: any = {
     'exp-1': experience && { 
       id: 'exp-1', 
       component: (
@@ -141,7 +142,7 @@ export const Reductor = () => {
     <DndProvider backend={HTML5Backend}>
       <div className={s.reductor}>
         <Dropdown>
-          <button>Добавить секцию</button>
+          <button className={s.add__btn}>Добавить секцию</button>
         </Dropdown>
 
         {orderedSections.map((section, index) => (

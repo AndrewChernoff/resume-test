@@ -1,6 +1,8 @@
+import html2pdf from 'html2pdf.js/dist/html2pdf.min';
 import { useAppSelector } from '../../app/hooks';
 import s from './preview.module.scss';
 import { selectAboutMe, selectCertificates, selectEducation, selectExperience, selectSkills, selectSectionsOrder } from "../../redux/sections-slice";
+import { useRef } from 'react';
 
 export const Preview = () => {
   const sectionsOrder = useAppSelector(selectSectionsOrder);
@@ -10,8 +12,25 @@ export const Preview = () => {
   const skills = useAppSelector(selectSkills);
   const certificates = useAppSelector(selectCertificates);
   const aboutMe = useAppSelector(selectAboutMe);
+  const paperSheetRef = useRef<HTMLDivElement>(null);
 
-  const sectionsMap = {
+
+  const handleDownload = () => {
+    const element = paperSheetRef.current;
+    if (!element) return;
+
+    const opt = {
+      margin: 10,
+      filename: 'resume.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().from(element).set(opt).save();
+  };
+
+  const sectionsMap: any = {
     'exp-1': { 
       id: 'exp-1', 
       component: (
@@ -88,7 +107,10 @@ export const Preview = () => {
 
   return (
     <div className={s.preview}>
-      <div className={s.paperSheet}>
+      <button onClick={handleDownload} className={s.download__button}>
+        Download PDF
+      </button>
+      <div className={s.paper__sheet} ref={paperSheetRef}>
         <h2>Резюме</h2>
         {orderedSections.map((section) => section.component)}
       </div>
