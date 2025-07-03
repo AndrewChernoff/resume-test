@@ -33,10 +33,9 @@ export const EducationModal = () => {
     const {
         control,
         handleSubmit,
-        formState: { errors, isSubmitting },
         reset,
         getValues,
-        formState: { isDirty, isValid }
+        formState: { isDirty, isValid, errors, isSubmitting }
     } = useForm<FormData>({
         defaultValues: {
             collage: fields.collage || '',

@@ -36,10 +36,9 @@ export const ExperienceModal = () => {
     const {
         control,
         handleSubmit,
-        formState: { errors, isSubmitting },
         reset,
         getValues,
-        formState: { isDirty, isValid }
+        formState: { isDirty, isValid, errors, isSubmitting }
       } = useForm<FormData>({
         defaultValues: {
           position: fields.position || '',
